@@ -1,0 +1,138 @@
+<?php
+
+
+/**
+ * @file
+ * A custom module that uses a custom datasource plugin to index and search custom data from custom tables.
+ */
+
+use Drupal\search_api\IndexInterface;
+use Drupal\search_api\Item\ItemInterface;
+
+use Drupal\custom_tables_datasource\Plugin\DataType\CustomDataType;
+
+/**
+ * 
+ * Own mechanism for tracking data: inserting data
+ *
+ */
+function custom_tables_datasource_data_insert(CustomDataType $my_data) {
+  /** @var \Drupal\custom_tables_datasource\Plugin\search_api\datasource\CustomEntityTrackingManager  */
+  $tracking_manager = \Drupal::getContainer()->get('search_api.custom_tables_datasource.tracking_manager');
+  $tracking_manager->dataInsert($$my_data);
+}
+
+/**
+ *
+ * own mechanism for tracking new/updated/deleted entities.
+ *
+ * @see \Drupal\search_api\Plugin\search_api\datasource\ContentEntityTrackingManager::entityUpdate()
+ * @see \Drupal\search_api\Utility\TrackingHelper::trackReferencedEntityUpdate()
+ */
+function custom_tables_datasource_data_update(CustomDataType $my_data) {
+  /** @var \Drupal\custom_tables_datasource\Plugin\search_api\datasource\CustomEntityTrackingManager  */
+  $tracking_manager = \Drupal::getContainer()->get('search_api.custom_tables_datasource.tracking_manager');
+  $tracking_manager->dataUpdate($my_data);
+
+  // Attempt to track all items as changed that indexed updated data indirectly.
+  /*
+  * Independent of datasources, however, this will also call
+  * \Drupal\search_api\Utility\TrackingHelper::trackReferencedEntityUpdate() to
+  * attempt to mark all items for reindexing that indirectly indexed changed
+  * fields of this entity.
+  */
+
+  // \Drupal::getContainer()->get('search_api.tracking_helper')
+  //   ->trackReferencedEntityUpdate($my_data);
+}
+
+/**
+ * own mechanism for tracking new/updated/deleted entities.
+ *
+ * @see \Drupal\search_api\Plugin\search_api\datasource\ContentEntityTrackingManager::entityDelete()
+ */
+function custom_tables_datasource_data_delete(CustomDataType $my_data) {
+  /** @var \Drupal\custom_tables_datasource\Plugin\search_api\datasource\CustomEntityTrackingManager  */
+  $tracking_manager = \Drupal::getContainer()->get('search_api.custom_tables_datasource.tracking_manager');
+  $tracking_manager->dataDelete($my_data);
+
+  // // Attempt to track all items as changed that indexed the entity indirectly.
+  // \Drupal::getContainer()->get('search_api.tracking_helper')
+  //   ->trackReferencedEntityUpdate($entity, TRUE);
+}
+
+
+// /**
+//  * Implements hook_search_api_index_items_alter().
+//  */
+// function custom_tables_datasource_search_api_index_items_alter(IndexInterface $index, array &$items) {
+
+//   \Drupal::logger('custom_tables_datasource')->notice("running");
+
+//   \Drupal::logger('custom_tables_datasource')->notice("index: ". $index->getDescription());
+
+//   // Check if the index is using the custom datasource plugin.
+//   if ($index->getDatasource('custom_tables_datasource')) {
+
+//     \Drupal::logger('custom_tables_datasource')->notice("custom_tables_datasource_search_api_index_items_alter() index is using 'custom_tables_datasource'");
+//     // Loop over the items that are being indexed.
+//     // foreach ($items as $item) {
+
+      
+//     //   // Get the original object from the item, which is an instance of CustomDataType.
+//     //   /** @var \Drupal\custom_tables_datasource\Plugin\search_api\datasource\CustomDataType $my_custom_data */
+//     //   $my_custom_data = $item->getOriginalObject()->getValue();
+
+//     //   dump($my_custom_data);
+
+//     //   // Get the ID of the item, which is a row in the custom table.
+//     //   $id = $my_custom_data->get('id')->getValue();
+
+//     //   // Query the custom tables to get the additional data for the item.
+//     //   // Assuming there are two custom tables named 'my_custom_table_1' and 'my_custom_table_2',
+//     //   // which have a foreign key relationship with the main custom table 'my_custom_table'.
+//     //   // Assuming the additional data are 'camera', 'ram', and 'connectivity'.
+//     //   $query = \Drupal::database()->select('my_custom_table_1', 'mct1')
+//     //     ->fields('mct1', ['camera', 'ram'])
+//     //     ->condition('mct1.id', $id);
+//     //   $result = $query->execute()->fetchAssoc();
+//     //   $camera = $result['camera'];
+//     //   $ram = $result['ram'];
+
+//     //   $query = \Drupal::database()->select('my_custom_table_2', 'mct2')
+//     //     ->fields('mct2', ['connectivity'])
+//     //     ->condition('mct2.id', $id);
+//     //   $result = $query->execute()->fetchAssoc();
+//     //   $connectivity = $result['connectivity'];
+
+//     //   // Add or modify the fields of the item with the additional data.
+//     //   // Assuming the fields are named 'custom_tables_datasource:camera', 'custom_tables_datasource:ram', and 'custom_tables_datasource:connectivity'.
+//     //   $fields = $item->getFields();
+//     //   $fields['custom_tables_datasource:camera']->setValues([$camera]);
+//     //   $fields['custom_tables_datasource:ram']->setValues([$ram]);
+//     //   $fields['custom_tables_datasource:connectivity']->setValues([$connectivity]);
+//     // }
+//   }
+// }
+
+
+/**
+ * Implements hook_theme().
+ */
+function custom_tables_datasource($existing, $type, $theme, $path) {
+  return [
+    // 'commerce_cart_block' => [
+    //   'variables' => [
+    //     'icon' => NULL,
+    //     'count' => NULL,
+    //     'count_text' => '',
+    //     'content' => NULL,
+    //     'url' => NULL,
+    //     'links' => [],
+    //   ],
+    // ],
+    'custom_tables_datasource_empty_page' => [
+      'render element' => 'elements',
+    ],
+  ];
+}

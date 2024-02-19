@@ -1,0 +1,4 @@
+main_table: 'my_custom_table'
+hash_salt: 'my_custom_table_hash_salt_and_pepper'
+tracking_page_size: 100
+example: 'some value'

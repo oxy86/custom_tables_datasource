@@ -1,0 +1,17 @@
+# Schema for the configuration files of the Custom Datasource module.
+custom_tables_datasource.settings:
+  type: config_object
+  label: 'Custom Tables Datasource module settings'
+  mapping:
+    main_table:
+      type: string
+      label: 'The name of the main table'
+    hash_salt:
+      type: string
+      label: 'The salt of our items'
+    tracking_page_size:
+      type: integer
+      label: 'The number of entities loaded at once when adding items to the tracker for a newly created index'      
+    example:
+      type: string
+      label: 'Example'

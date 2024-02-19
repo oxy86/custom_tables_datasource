@@ -1,0 +1,12 @@
+custom_tables_datasource.settings_form:
+  title: 'Custom Tables Datasource'
+  description: 'Configure Custom Tables Datasource.'
+  parent: system.admin_config_search
+  route_name: custom_tables_datasource.settings_form
+  weight: 10
+custom_tables_datasource.data_page:
+  title: 'Custom Tables Datasource Data'
+  description: 'See the data from Custom Tables Datasource.'
+  parent: system.admin_config_search
+  route_name: custom_tables_datasource.data_page
+  weight: 11

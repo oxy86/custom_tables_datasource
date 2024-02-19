@@ -1,0 +1,7 @@
+name: Custom Tables Datasource
+type: module
+description: Creates a custom datasource plugin which tells Drupal how to access and index data in custom tables
+package: Custom
+core_version_requirement: ^9 || ^10
+dependencies:
+  - search_api

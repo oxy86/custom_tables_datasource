@@ -1,0 +1,15 @@
+custom_tables_datasource.settings_form:
+  path: '/admin/config/system/custom-tables-datasource'
+  defaults:
+    _title: 'Custom Tables Datasource settings'
+    _form: 'Drupal\custom_tables_datasource\Form\SettingsForm'
+  requirements:
+    _permission: 'administer custom_tables_datasource configuration'
+custom_tables_datasource.data_page:
+  path: '/custom-tables-datasource-data'
+  defaults:
+    _controller: 'Drupal\custom_tables_datasource\Controller\CustomTablesDatasourceController::dataPage'
+    _title: 'Custom Table Datasource Data'
+  requirements:
+    _access: 'TRUE'
+
