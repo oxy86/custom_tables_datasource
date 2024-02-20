@@ -120,7 +120,6 @@ class CustomEntity extends DatasourcePluginBase
     ->notice("__construct()" 
     . " - ID: ". $this->pluginId  
     . " - Index: " . $this->getIndex()->id()
-    . " - table name: " . $this->getTableName()
     );
   }
 
@@ -338,6 +337,7 @@ class CustomEntity extends DatasourcePluginBase
     parent::getItemUrl($item);
   }
 
+  
   /**
    * {@inheritdoc}
    */

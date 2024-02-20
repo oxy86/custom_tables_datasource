@@ -154,8 +154,14 @@ class MyDefinition extends ComplexDataDefinitionBase {
    */
   public function getPropertyDefinitions() {
 
+    \Drupal::logger('MyDefinition')->notice("MyDefinition::getPropertyDefinitions() will return propdefinitions...");
     if (!isset($this->propertyDefinitions)) {
-
+      \Drupal::logger('MyDefinition')->notice("MyDefinition::getPropertyDefinitions() creating new definitions...");
+    }
+    else {
+      \Drupal::logger('MyDefinition')->notice("MyDefinition::getPropertyDefinitions() NOT creating new definitions...");
+    }
+    if (!isset($this->propertyDefinitions)) {
 
       $this->propertyDefinitions['id'] = DataDefinition::create('integer')
         ->setLabel('ID')

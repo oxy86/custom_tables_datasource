@@ -19,3 +19,8 @@ $tracking_manager->dataUpdate($updated_data);
 @see https://www.drupal.org/docs/8/modules/search-api/getting-started/adding-an-index
 
 @see https://www.drupal.org/docs/8/modules/search-api/developer-documentation/providing-a-new-datasource-plugin
+
+
+## Maintainer - Report an Issue
+
+- [Dimitris Kalamaras (oxy86)](https://github.com/oxy86)
